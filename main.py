@@ -2,13 +2,13 @@
     1. Tách từ trong câu, dùng thư viện underthesea để tách từ tiếng việt
        https://github.com/undertheseanlp/word_tokenize, độ chính xác 97.65%
     2. Chuyển các từ về dạng viết thường hết
-#     3. Loại bỏ các từ không có ý nghĩa. Dùng file stopword
-#         https://github.com/stopwords/vietnamese-stopwords
-#     4. Đếm số lần xuất hiện của các từ còn lại
-# '''
-#
-# import re
-# # Dùng để tách từ tiếng việt #vietnamese NLP toolkit
+    3. Loại bỏ các từ không có ý nghĩa. Dùng file stopword
+        https://github.com/stopwords/vietnamese-stopwords
+    4. Đếm số lần xuất hiện của các từ còn lại
+'''
+
+import re
+# Dùng để tách từ tiếng việt #vietnamese NLP toolkit
 from underthesea import word_tokenize
 from collections import Counter
 # Dùng để đọc file utf8
@@ -22,13 +22,13 @@ with codecs.open(filename, 'r', encoding='utf8') as f_obj:
 
 if __name__ == "__main__":
     print("Nhập vào văn bản cần xét:")
+    #input nên nhập đúng chuẩn Tiếng Việt(vd: tên riêng, địa danh,... thì viết hoa)
+    # =>để có kết quả chính xác nhất
     text = input()
-    # Chuyển đầu vào thành viết thường hết
-    text_lower = text.lower()
-    # Tách các từ và cụm từ
     #[^\r]: Loại bỏ các kí tự không phải chữ, số và dấu gạch dưới
-    text_clear = re.sub(r'[^\w]', ' ', text_lower)
-    word_tokenize = word_tokenize(text_lower)
+    text_clear = re.sub(r'[^\w]', ' ', text)
+    # Tách các từ và cụm từ dựa vào thư viện có sẵn underthesea
+    word_tokenize = word_tokenize(text_clear)
 
     # Chuyển list thành 1 dict. Với key là phần tử trong list và value là số lần xuất hiện của phần tử đó trong list
     # Trả về danh sách các phần tử được sắp xếp theo độ phổ biến giảm dần
@@ -36,7 +36,6 @@ if __name__ == "__main__":
     print("===============================\nSố lần xuất hiện của các từ là:")
     for item in counter:
         #kiểm tra nếu có trong stopword thì loại bỏ
-        print(item[0])
         if item[0] in stopwords:
             continue
         else:
